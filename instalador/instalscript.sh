@@ -1,6 +1,6 @@
 #!/bin/bash
 #sudo apt-get update  &>/dev/null
-#killall apt apt-get
+killall apt apt-get
 dpkg --configure -a
 apt-get install software-properties-common -y
 apt-add-repository universe -y
