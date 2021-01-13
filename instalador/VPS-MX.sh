@@ -177,13 +177,10 @@ MIP2=$(wget -qO- ipv4.icanhazip.com)
 [[ "$MIP" != "$MIP2" ]] && IP="$MIP2" || IP="$MIP"
 }  
 function_verify () {
-  permited=$(curl -sSL "https://raw.githubusercontent.com/VPS-MX/VPS-MX-8.0/master/Control-IP")
-  [[ $(echo $
-  } || {
-  ### INTALAR VERCION DE SCRIPT
+  #permitedSCRIPT
   v1=$(curl -sSL "https://raw.githubusercontent.com/casitadelterror/scripts/master/Vercion")
   echo "$v1" > /etc/versin_script
-  }
+ 
 }
 funcao_idioma () {
 msg -bar2
