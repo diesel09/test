@@ -144,7 +144,7 @@ printTitle "Actualizar información de paquetes disponibles"
 apt-get update
 
 printTitle "PAQUETES DE ACTUALIZACIÓN"
-apt-get dist-upgrade -y
+#apt-get dist-upgrade -y
 
 if [ "$VERSION_UPGRADE" = "1" ] && [ "$VERSION_UPGRADE_SILENT" = "1" ]; then
 
