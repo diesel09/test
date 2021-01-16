@@ -141,7 +141,7 @@ printTitle "Limpieza de caché local"
 apt-get clean
 
 printTitle "Actualizar información de paquetes disponibles"
-apt-get update
+#apt-get update
 
 printTitle "PAQUETES DE ACTUALIZACIÓN"
 #apt-get dist-upgrade -y
