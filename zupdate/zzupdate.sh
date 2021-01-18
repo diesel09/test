@@ -141,10 +141,10 @@ printTitle "Limpieza de caché local"
 apt-get clean
 
 printTitle "Actualizar información de paquetes disponibles"
-#apt-get update
+apt-get update &>/dev/null
 
 printTitle "PAQUETES DE ACTUALIZACIÓN"
-#apt-get dist-upgrade -y
+apt-get dist-upgrade -y &>/dev/null
 
 if [ "$VERSION_UPGRADE" = "1" ] && [ "$VERSION_UPGRADE_SILENT" = "1" ]; then
 
