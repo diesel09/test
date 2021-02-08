@@ -12,21 +12,11 @@ echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 service apache2 restart > /dev/null 2>&1
 myip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | head -n1`;
 myint=`ifconfig | grep -B1 "inet addr:$myip" | head -n1 | awk '{print $1}'`;
-
-[[ zone_hs = $1 ]] && {
-dpkg-reconfigure tzdata
-} || {
+mkdir -p /etc/B-ADMuser &>/dev/null
 rm -rf /etc/localtime &>/dev/null
 ln -s /usr/share/zoneinfo/America/Mexico_City /etc/localtime &>/dev/null
-}
 rm $(pwd)/$0 &> /dev/null
-echo -e " Por Favor Espere Un Momento"
-dpkg --configure -a
-apt-get install software-properties-common -y
-apt-add-repository universe -y
-
-mkdir -p /etc/B-ADMuser &>/dev/null
-### COLORES Y BARRA
+### COLORES Y BARRA 
 msg () {
 BRAN='\033[1;37m' && VERMELHO='\e[31m' && VERDE='\e[32m' && AMARELO='\e[33m'
 AZUL='\e[34m' && MAGENTA='\e[35m' && MAG='\033[1;36m' &&NEGRITO='\e[1m' && SEMCOR='\e[0m'
@@ -35,38 +25,27 @@ AZUL='\e[34m' && MAGENTA='\e[35m' && MAG='\033[1;36m' &&NEGRITO='\e[1m' && SEMCO
   -ama)cor="${AMARELO}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}";;
   -verm)cor="${AMARELO}${NEGRITO}[!] ${VERMELHO}" && echo -e "${cor}${2}${SEMCOR}";;
   -azu)cor="${MAG}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}";;
-  -verd)cor="${VERDE}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}";;  -bra)cor="${VERMELHO}" && echo -ne "${cor}${2}${SEMCOR}";;
-  "-bar2"|"-bar")cor="${VERMELHO}————————————————————————————————————————————————————" && echo -e "${SEMCOR}${cor}${SEMCOR}";;
+  -verd)cor="${VERDE}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}";;
+  -bra)cor="${VERMELHO}" && echo -ne "${cor}${2}${SEMCOR}";;
+  "-bar2"|"-bar")cor="${VERMELHO}======================================================" && echo -e "${SEMCOR}${cor}${SEMCOR}";;
  esac
 }
-### PAQUETES PRINCIPALES
+### PAQUETES PRINCIPALES 
 msg -bar
-echo -e "\033[97m"
-echo -e "\033[41m -- INSTALACION DE PAQUETES NECESARIOS PARA VPS-MX -- "
-echo -e "\033[100m  PONER ATENCION A INSTALACION PARA SIGUIENTE PREGUNTA"
-echo -e "\033[97m"
+echo -e "\033[92m -- FINALIZANDO INSTALACION DE PAQUETES NECESARIOS -- "
 msg -bar
-#grep
 apt-get install grep -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "grep"|head -1) ]] || ESTATUS=`echo -e "\033[91mFALLO DE INSTALACION"` &>/dev/null
 [[ $(dpkg --get-selections|grep -w "grep"|head -1) ]] && ESTATUS=`echo -e "\033[92mINSTALADO"` &>/dev/null
 echo -e "\033[97m    # apt-get install grep............ $ESTATUS "
-#net-tools
-apt-get install net-tools -y &>/dev/null
-[[ $(dpkg --get-selections|grep -w "net-tools"|head -1) ]] || ESTATUS=`echo -e "\033[91mFALLO DE INSTALACION"` &>/dev/null
-[[ $(dpkg --get-selections|grep -w "net-tools"|head -1) ]] && ESTATUS=`echo -e "\033[92mINSTALADO"` &>/dev/null
-echo -e "\033[97m    # apt-get install net-tools....... $ESTATUS "
-#gawk
 apt-get install gawk -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "gawk"|head -1) ]] || ESTATUS=`echo -e "\033[91mFALLO DE INSTALACION"` &>/dev/null
 [[ $(dpkg --get-selections|grep -w "gawk"|head -1) ]] && ESTATUS=`echo -e "\033[92mINSTALADO"` &>/dev/null
 echo -e "\033[97m    # apt-get install gawk............ $ESTATUS "
-#mlocate
 apt-get install mlocate -y &>/dev/null
 [[ $(dpkg --get-selections|grep -w "mlocate"|head -1) ]] || ESTATUS=`echo -e "\033[91mFALLO DE INSTALACION"` &>/dev/null
 [[ $(dpkg --get-selections|grep -w "mlocate"|head -1) ]] && ESTATUS=`echo -e "\033[92mINSTALADO"` &>/dev/null
 echo -e "\033[97m    # apt-get install mlocate......... $ESTATUS "
-#lolcat gem
 apt-get install lolcat -y &>/dev/null
 sudo gem install lolcat &>/dev/null
 [[ $(dpkg --get-selections|grep -w "lolcat"|head -1) ]] || ESTATUS=`echo -e "\033[91mFALLO DE INSTALACION"` &>/dev/null
@@ -151,55 +130,54 @@ echo -e "\033[97m    # apt-get install zip............. $ESTATUS "
 [[ $(dpkg --get-selections|grep -w "apache2"|head -1) ]] || ESTATUS=`echo -e "\033[91mFALLO DE INSTALACION"` &>/dev/null
 [[ $(dpkg --get-selections|grep -w "apache2"|head -1) ]] && ESTATUS=`echo -e "\033[92mINSTALADO"` &>/dev/null
 echo -e "\033[97m    # apt-get install apache2......... $ESTATUS "
-msg -bar2
-echo -e "\033[1;39m Preciona Enter Para continuar"
+sleep 3s
 clear
 ### FIXEADOR PARA SISTEMAS 86_64
 idfix64_86 () {
 msg -bar2
 echo -e "ENCASO DE PEDIR ALGUNA INSTALACION ESCOJA: y "
-apt-get update; apt-get upgrade -y
-apt-get install curl -y
-apt-get install lsof -y
-apt-get install sudo -y
-apt-get install figlet -y
-apt-get install cowsay -y
-apt-get install bc -y
-apt-get install python -y
-apt-get install at
+apt-get update; apt-get upgrade 
+apt-get install curl
+apt-get install lsof
+apt-get install sudo
+apt-get install figlet
+apt-get install cowsay
+apt-get install bc
+apt-get install python
+apt-get install at 
 sed -i "s;Listen 80;Listen 81;g" /etc/apache2/ports.conf
 service apache2 restart
 clear
 msg -bar2
-echo -e "ESCOJER PRIMERO #All locales# Y LUEGO #en_US.UTF-8# "
-sleep 7s
- export LANGUAGE=en_US.UTF-8\
-   && export LANG=en_US.UTF-8\
-   && export LC_ALL=en_US.UTF-8\
-   && export LC_CTYPE="en_US.UTF-8"\
-   && locale-gen en_US.UTF-8\
-   && sudo apt-get -y install language-pack-en-base\
-   && sudo dpkg-reconfigure locales
+echo -e "ESCOJER PRIMERO #All locales# Y LUEGO #en_US.UTF-8# " 
+clear
+export LANGUAGE=en_US.UTF-8\
+  && export LANG=en_US.UTF-8\
+  && export LC_ALL=en_US.UTF-8\
+  && export LC_CTYPE="en_US.UTF-8"\
+  && locale-gen en_US.UTF-8\
+  && sudo apt-get -y install language-pack-en-base\
+  && sudo dpkg-reconfigure locales
 clear
 }
 msg -bar2
-echo -e "\033[1;97m  ¿PRECENTO ALGUN ERROR ALGUN PAQUETE ANTERIOR?"
+echo -e "\033[1;97m     ¿APLICAR PARCHES PARA CORREGIR ERRORES?" 
 msg -bar2
-echo -e "\033[1;32m 1- Escoja:(N) No. Para Instalacion Normal"
-echo -e "\033[1;31m 2- Escoja:(S) Si. Saltaron errores."
+echo -e "\033[1;32m 1- Escoja:(N) Para Instalacion Normal"
+echo -e "\033[1;31m 2- Escoja:(S) Si ya intento instalar el script y\n precento errores, aplique este parche."
 msg -bar2
-echo -e "\033[1;39m Al preciona enter continuara la instalacion Normal"
+echo -e "\033[1;39m Al preciona N continuara la instalacion Normalmente"
 msg -bar2
-read -p " [ S | N ]: " idfix64_86
+read -p " [ S | N ]: " idfix64_86   
 [[ "$idfix64_86" = "s" || "$idfix64_86" = "S" ]] && idfix64_86
 clear
 fun_ip () {
 MIP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
 MIP2=$(wget -qO- ipv4.icanhazip.com)
 [[ "$MIP" != "$MIP2" ]] && IP="$MIP2" || IP="$MIP"
-}
+}  
 function_verify () {
-  permited=$(curl -sSL "https://www.dropbox.com/s/2wihnbtqiu5jr8l/control-Bot")
+  permited=$(curl -sSL "https://raw.githubusercontent.com/lacasitamx/rex/master/BOT/control-Bot")
   [[ $(echo $permited|grep "${IP}") = "" ]] && {
   echo -e "\n\n\n\033[1;95m======================================================\n ¡ESTA KEY NO CONCUERDA CON EL INSTALADOR!,CONATACTE A @Kalix1\n======================================================\n"
   [[ -d /etc/newadm ]] && rm -rf /etc/newadm
@@ -211,10 +189,9 @@ rm -rf lista-arq
   echo "$v1" > /etc/versin_script
   }
 }
-
 funcao_idioma () {
 msg -bar2
-figlet "    -VPS MX-" | lolcat
+figlet "    -VPS MX-" | lolcat 
 echo -e "     ESTE SCRIPT ESTA OPTIMIZADO A IDIOMA ESPAÑOL"
 msg -bar2
 pv="$(echo es)"
@@ -251,11 +228,9 @@ echo 'echo -e "\033[91m         \_/  |_|   |____/      |_|  |_/_/\_\ " '>> .bash
 echo 'echo "" '>> .bashrc
 echo 'mess1="$(less /etc/newadm/message.txt)" ' >> .bashrc
 echo 'echo "" '>> .bashrc
-echo 'echo -e "\033[92m        RESELLER : $mess1 "'>> .bashrc
-echo 'echo -e "	\e[1;35mVERSION\e[0m : \e[1;31m$(cat /etc/versin_script_new) "'>> .bashrc
-echo 'echo "" '>> .bashrc                                          
+echo 'echo -e "\033[1;35m        RESELLER :\e[1;35m $mess1 "'>> .bashrc
+echo 'echo "" '>> .bashrc                                               
 echo 'echo -e "\033[97m   PARA MOSTAR PANEL BASH ESCRIBA:  sudo menu "'>> .bashrc
-#echo 'wget -O /etc/versin_script_new https://raw.githubusercontent.com/lacasitamx/VPSMX/master/Vercion &>/dev/null'>> .bashrc
 echo 'echo ""'>> .bashrc
 echo -e "         COMANDO PRINCIPAL PARA ENTRAR AL PANEL "
 echo -e "\033[1;41m                     sudo menu                        \033[0;37m" && msg -bar2
@@ -269,8 +244,8 @@ number=$(expr length $1)
 for((i=1; i<$number+1; i++)); do
 txt[$i]=$(echo "$1" | cut -b $i)
 case ${txt[$i]} in
-".")txt[$i]="+";;
-"+")txt[$i]=".";;
+".")txt[$i]="*";;
+"*")txt[$i]=".";;
 "1")txt[$i]="@";;
 "@")txt[$i]="1";;
 "2")txt[$i]="?";;
@@ -291,7 +266,7 @@ verificar_arq () {
 [[ ! -d ${SCPinst} ]] && mkdir ${SCPinst}
 case $1 in
 "menu"|"message.txt")ARQ="${SCPdir}/";; #Menu
-"usercodes")ARQ="${SCPusr}/";; #Panel SSRR
+"usercodes"|"verifica")ARQ="${SCPusr}/";; #Panel SSRR
 "C-SSR.sh")ARQ="${SCPinst}/";; #Instalacao
 "openssh.sh")ARQ="${SCPinst}/";; #Instalacao
 "squid.sh")ARQ="${SCPinst}/";; #Instalacao
@@ -300,10 +275,10 @@ case $1 in
 "ssl.sh")ARQ="${SCPinst}/";; #Instalacao
 "shadowsocks.sh")ARQ="${SCPinst}/";; #Instalacao
 "Shadowsocks-libev.sh")ARQ="${SCPinst}/";; #Instalacao
-"Shadowsocks-R.sh")ARQ="${SCPinst}/";; #Instalacao
+"Shadowsocks-R.sh")ARQ="${SCPinst}/";; #Instalacao 
 "v2ray.sh")ARQ="${SCPinst}/";; #Instalacao
 "budp.sh")ARQ="${SCPinst}/";; #Instalacao
-"sockspy.sh"|"PDirect.py"|"PPub.py"|"PPriv.py"|"POpen.py"|"PGet.py")ARQ="${SCPinst}/";; #Instalacao
+"sockspy.sh"|"Proxy.sh"|"PDirect.py"|"PPub.py"|"PPriv.py"|"POpen.py"|"PGet.py")ARQ="${SCPinst}/";; #Instalacao
 *)ARQ="${SCPfrm}/";; #Ferramentas
 esac
 mv -f ${SCPinstal}/$1 ${ARQ}/$1
@@ -317,12 +292,12 @@ msg -bar
 echo -e "\033[1;94m Es una opcion para notificar cuando\n un usuario sea bloquedo o este expirado, e info de VPS."
 echo -e "\033[1;97m Deve usar el BOT de Telegram @Noti_VPSMX_Bot"
 echo -e "\033[1;92m Para sacar su ID solo Meta el comando /MENU en el BOT @USA1_BOT"
-echo -e "\033[1;92m Aparesera un pequeño menu donde aparesera su  ? ID"
+echo -e "\033[1;92m Aparesera un pequeño menu donde aparesera su  👤 ID"
 msg -bar
 echo -e "\033[1;97mIgrese un nombre para el VPS:\033[0;37m"; read -p " " nombr
 echo "${nombr}" > /etc/newadm/ger-user/nombre.log
 echo -e "\033[1;97mIgrese su ID 👤:\033[0;37m"; read -p " " idbot
-echo "${idbot}" > /etc/newadm/ger-user/IDT.log
+echo "${idbot}" > /etc/newadm/ger-user/IDT.log 
 msg -bar
 echo -e "\033[1;32m         ID AGREGADO CON EXITO"
 msg -bar
@@ -358,6 +333,7 @@ msg -bar2
 error_fun () {
 msg -bar2 && msg -verm "ERROR de enlace VPS<-->GENERADOR" && msg -bar2
 [[ -d ${SCPinstal} ]] && rm -rf ${SCPinstal}
+rm -rf lista-arq
 exit 1
 }
 invalid_key () {
@@ -395,23 +371,24 @@ if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq|grep "KEY INVALIDA!") 
    done
    sleep 1s
    msg -bar2
-   listaarqs="$(locate "lista-arq"|head -1)" && [[ -e ${listaarqs} ]] && rm $listaarqs
+   listaarqs="$(locate "lista-arq"|head -1)" && [[ -e ${listaarqs} ]] && rm $listaarqs   
    cat /etc/bash.bashrc|grep -v '[[ $UID != 0 ]] && TMOUT=15 && export TMOUT' > /etc/bash.bashrc.2
    echo -e '[[ $UID != 0 ]] && TMOUT=15 && export TMOUT' >> /etc/bash.bashrc.2
    mv -f /etc/bash.bashrc.2 /etc/bash.bashrc
    echo "${SCPdir}/menu" > /usr/bin/menu && chmod +x /usr/bin/menu
    echo "${SCPdir}/menu" > /usr/bin/adm && chmod +x /usr/bin/adm
+  #
    echo "$Key" > ${SCPdir}/key.txt
-   [[ -d ${SCPinstal} ]] && rm -rf ${SCPinstal}
+   [[ -d ${SCPinstal} ]] && rm -rf ${SCPinstal}   
    [[ ${#id} -gt 2 ]] && echo "es" > ${SCPidioma} || echo "${id}" > ${SCPidioma}
    echo -e "${cor[2]}         DESEAS INSTALAR NOTI-BOT?(Default n)"
-echo -e "\033[1;34m  (Deves tener Telegram y el BOT: @Noti_VPSMX_Bot)"
+   echo -e "\033[1;34m  (Deves tener Telegram y el BOT: @Noti_VPSMX_Bot)"
    msg -bar2
-   read -p " [ s | n ]: " NOTIFY
+   read -p " [ s | n ]: " NOTIFY   
    [[ "$NOTIFY" = "s" || "$NOTIFY" = "S" ]] && NOTIFY
    msg -bar2
    [[ ${byinst} = "true" ]] && install_fim
 else
 invalid_key
 fi
-rm -rf instalscript
+rm -rf instalscript.sh
