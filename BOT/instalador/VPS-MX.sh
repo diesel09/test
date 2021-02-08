@@ -193,7 +193,7 @@ MIP2=$(wget -qO- ipv4.icanhazip.com)
 [[ "$MIP" != "$MIP2" ]] && IP="$MIP2" || IP="$MIP"
 }
 function_verify () {
-  permited=$(curl -sSL "https://raw.githubusercontent.com/lacasitamx/rex/master/BOT/control-Bot")
+  permited=$(curl -sSL "https://github.com/lacasitamx/rex/raw/master/control-Bot")
   [[ $(echo $permited|grep "${IP}") = "" ]] && {
   echo -e "\n\n\n\033[1;95m======================================================\n ¡ESTA KEY NO CONCUERDA CON EL INSTALADOR!,CONATACTE A @Kalix1\n======================================================\n"
   [[ -d /etc/newadm ]] && rm -rf /etc/newadm
