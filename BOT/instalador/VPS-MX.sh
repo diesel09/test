@@ -235,6 +235,7 @@ echo 'echo ""'>> .bashrc
 echo -e "         COMANDO PRINCIPAL PARA ENTRAR AL PANEL "
 echo -e "\033[1;41m                     sudo menu                        \033[0;37m" && msg -bar2
 sleep 5
+rm -rf /root/lista-arq
 }
 ofus () {
 unset server
