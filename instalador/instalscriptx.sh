@@ -7,8 +7,8 @@ SCPidioma="${SCPdir}/idioma"
 SCPusr="${SCPdir}/ger-user"
 SCPfrm="/etc/ger-frm"
 SCPinst="/etc/ger-inst"
-#echo "nameserver 8.8.8.8" > /etc/resolv.conf
-#echo "nameserver 8.8.4.4" >> /etc/resolv.conf
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
+echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 service apache2 restart > /dev/null 2>&1
 echo -e " Por Favor Espere Un Momento"
 dpkg --configure -a
@@ -318,7 +318,7 @@ NOM1="$(echo $NOM)"
 IDB1=`less /etc/newadm/ger-user/IDT.log` > /dev/null 2>&1
 IDB2=`echo $IDB1` > /dev/null 2>&1
 
-KEY="862633455:AAGJ9BBJanzV6yYwLSemNAZAVwn7EyjrtcY"
+KEY="1647061408:AAEXJ5T1mC0taDP6lQCd-Hl-eY7vIn9iR14"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 MSG="⚠️ AVISO DE VPS: $NOM1 ⚠️
 👉 MENSAJE DE PRUEBA
@@ -391,8 +391,7 @@ if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq|grep "KEY INVALIDA!") 
    echo "$Key" > ${SCPdir}/key.txt
    [[ -d ${SCPinstal} ]] && rm -rf ${SCPinstal}
    [[ ${#id} -gt 2 ]] && echo "es" > ${SCPidioma} || echo "${id}" > ${SCPidioma}
-   echo -e "${cor[2]}         DESEAS INSTALAR NOTI-BOT?(Default n)"   
-   echo -e "\033[1;34m  (Deves tener Telegram y el BOT: @Noti_VPSMX_Bot)"
+   echo -e "${cor[2]}         DESEAS INSTALAR NOTI-BOT?(Default n)"   echo -e "\033[1;34m  (Deves tener Telegram y el BOT: @Noti_VPSMX_Bot)"
    msg -bar2
    read -p " [ s | n ]: " NOTIFY
    [[ "$NOTIFY" = "s" || "$NOTIFY" = "S" ]] && NOTIFY
