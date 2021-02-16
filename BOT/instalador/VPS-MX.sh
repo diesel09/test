@@ -291,7 +291,7 @@ msg -bar
 msg -ama " Notify-BOT (Notificasion Remota)| VPS-MX By @Kalix1 "
 msg -bar
 echo -e "\033[1;94m Es una opcion para notificar cuando\n un usuario sea bloquedo o este expirado, e info de VPS."
-echo -e "\033[1;97m Deve usar el BOT de Telegram @Noti_VPSMX_Bot"
+echo -e "\033[1;97m Deve usar el BOT de Telegram @lacasitamx_bot"
 echo -e "\033[1;92m Para sacar su ID solo Meta el comando /MENU en el BOT @USA1_BOT"
 echo -e "\033[1;92m Aparesera un pequeño menu donde aparesera su  👤 ID"
 msg -bar
@@ -307,7 +307,7 @@ NOM1="$(echo $NOM)"
 IDB1=`less /etc/newadm/ger-user/IDT.log` > /dev/null 2>&1
 IDB2=`echo $IDB1` > /dev/null 2>&1
 
-KEY="862633455:AAGJ9BBJanzV6yYwLSemNAZAVwn7EyjrtcY"
+KEY="1647061408:AAEXJ5T1mC0taDP6lQCd-Hl-eY7vIn9iR14"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 MSG="⚠️ AVISO DE VPS: $NOM1 ⚠️
 👉 MENSAJE DE PRUEBA
