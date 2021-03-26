@@ -7,9 +7,7 @@ SCPidioma="${SCPdir}/idioma"
 SCPusr="${SCPdir}/ger-user"
 SCPfrm="/etc/ger-frm"
 SCPinst="/etc/ger-inst"
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
-echo "nameserver 8.8.4.4" >> /etc/resolv.conf
-service apache2 restart > /dev/null 2>&1
+
 myip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | head -n1`;
 myint=`ifconfig | grep -B1 "inet addr:$myip" | head -n1 | awk '{print $1}'`;
 mkdir -p /etc/B-ADMuser &>/dev/null
@@ -235,7 +233,6 @@ echo 'echo ""'>> .bashrc
 echo -e "         COMANDO PRINCIPAL PARA ENTRAR AL PANEL "
 echo -e "\033[1;41m                     sudo menu                        \033[0;37m" && msg -bar2
 sleep 5
-rm -rf /root/lista-arq
 }
 ofus () {
 unset server
@@ -245,14 +242,14 @@ number=$(expr length $1)
 for((i=1; i<$number+1; i++)); do
 txt[$i]=$(echo "$1" | cut -b $i)
 case ${txt[$i]} in
-".")txt[$i]="*";;
-"*")txt[$i]=".";;
+".")txt[$i]="v";;
+"v")txt[$i]=".";;
 "1")txt[$i]="@";;
 "@")txt[$i]="1";;
 "2")txt[$i]="?";;
 "?")txt[$i]="2";;
-"4")txt[$i]="%";;
-"%")txt[$i]="4";;
+"4")txt[$i]="p";;
+"p")txt[$i]="4";;
 "-")txt[$i]="K";;
 "K")txt[$i]="-";;
 esac
@@ -348,7 +345,7 @@ tput cuu1 && tput dl1
 done
 msg -ne "# Verificando Key # : "
 cd $HOME
-wget -O $HOME/lista-arq $(ofus "$Key")/$IP > /dev/null 2>&1 && echo -e "\033[1;32m Code Completa" || {
+wget -O $HOME/lista-arq $(ofus "$Key")/$IP > /dev/null 2>&1 && echo -e "\033[1;32m Key Completa ✓" || {
    echo -e "\033[1;91m Key Incompleta"
    invalid_key
    exit
@@ -359,14 +356,14 @@ function_verify
 updatedb
 if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq|grep "KEY INVALIDA!") ]]; then
    msg -bar2
-   msg -verd " INSTALANDO \033[1;31m[VPS-MX #MOD by @Kalix1]"
+   msg -verd " INSTALANDO: \033[1;31m[VPS-MX #MOD by @Kalix1]"
    REQUEST=$(ofus "$Key"|cut -d'/' -f2)
    [[ ! -d ${SCPinstal} ]] && mkdir ${SCPinstal}
    pontos="."
    stopping="Verificando Actualizaciones"
    for arqx in $(cat $HOME/lista-arq); do
    msg -verm "${stopping}${pontos}"
-   wget -O ${SCPinstal}/${arqx} ${IP}:81/${REQUEST}/${arqx} > /dev/null 2>&1 && verificar_arq "${arqx}" || error_fun
+   wget --no-check-certificate -O ${SCPinstal}/${arqx} ${IP}:81/${REQUEST}/${arqx} > /dev/null 2>&1 && verificar_arq "${arqx}" || error_fun
    tput cuu1 && tput dl1
    pontos+="."
    done
@@ -383,7 +380,7 @@ if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq|grep "KEY INVALIDA!") 
    [[ -d ${SCPinstal} ]] && rm -rf ${SCPinstal}   
    [[ ${#id} -gt 2 ]] && echo "es" > ${SCPidioma} || echo "${id}" > ${SCPidioma}
    echo -e "${cor[2]}         DESEAS INSTALAR NOTI-BOT?(Default n)"
-   echo -e "\033[1;34m  (Deves tener Telegram y el BOT: @Noti_VPSMX_Bot)"
+   echo -e "\033[1;34m  (Deves tener Telegram y el BOT: @lacasitamx_bot)"
    msg -bar2
    read -p " [ s | n ]: " NOTIFY   
    [[ "$NOTIFY" = "s" || "$NOTIFY" = "S" ]] && NOTIFY
