@@ -166,7 +166,7 @@ echo -e "\033[1;31m 2- Escoja:(S) Si ya intento instalar el script y\n precento 
 msg -bar2
 echo -e "\033[1;39m Al preciona N continuara la instalacion Normalmente"
 msg -bar2
-read -p " [ S | N ]: " idfix64_86   
+read -p " [ S | N ]: " -e -i n idfix64_86   
 [[ "$idfix64_86" = "s" || "$idfix64_86" = "S" ]] && idfix64_86
 clear
 fun_ip () {
@@ -209,6 +209,7 @@ chmod +x /bin/resetsshdrop
 
 wget -O /etc/versin_script_new https://raw.githubusercontent.com/lacasitamx/VPSMX/master/Vercion &>/dev/null
 msg -bar2
+rm -rf lista-arq
 echo '#!/bin/sh -e' > /etc/rc.local
 sudo chmod +x /etc/rc.local
 echo "sudo rebootnb" >> /etc/rc.local
