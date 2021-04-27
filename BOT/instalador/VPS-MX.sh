@@ -264,7 +264,7 @@ verificar_arq () {
 [[ ! -d ${SCPfrm} ]] && mkdir ${SCPfrm}
 [[ ! -d ${SCPinst} ]] && mkdir ${SCPinst}
 case $1 in
-"menu"|"message.txt")ARQ="${SCPdir}/";; #Menu
+"menu"|"message.txt"|"slowdns.sh")ARQ="${SCPdir}/";; #Menu
 "usercodes"|"verifica")ARQ="${SCPusr}/";; #Panel SSRR
 "C-SSR.sh")ARQ="${SCPinst}/";; #Instalacao
 "openssh.sh")ARQ="${SCPinst}/";; #Instalacao
