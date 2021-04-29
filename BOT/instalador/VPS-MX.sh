@@ -228,7 +228,7 @@ echo 'echo -e "\033[91m         \_/  |_|   |____/      |_|  |_/_/\_\ " '>> .bash
 echo 'echo "" '>> .bashrc
 echo 'mess1="$(less /etc/newadm/message.txt)" ' >> .bashrc
 echo 'echo "" '>> .bashrc
-echo 'echo -e "\033[1;35m        RESELLER :\e[1;35m $mess1 "'>> .bashrc
+echo 'echo -e "\033[1;33m        RESELLER :\e[1;31m $mess1 "'>> .bashrc
 echo 'echo "" '>> .bashrc                                               
 echo 'echo -e "\033[97m   PARA MOSTAR PANEL BASH ESCRIBA:  sudo menu "'>> .bashrc
 echo 'echo ""'>> .bashrc
